@@ -26,8 +26,23 @@ A **Szerelmi Kalandor** egy egyedi, webalapú alkalmazás, amivel **személyre s
 npm install
 ng serve --host 0.0.0.0
 
-### 1. Adatbázis létrehozása
-Importáld az SQL fájlt a **phpMyAdmin**-ba. Győződj meg róla, hogy a `rewards` és `questions` táblák fel vannak töltve alapadatokkal.
+## 🗄️ Adatbázis Beállítása
+
+A projekt tartalmaz egy kiexportált adatbázis fájlt a gyökérmappában (pl. `szerelmi_kalandor(1).sql`).
+
+**Telepítés lépései:**
+1. Hozz létre egy `szerelmi_kalandor` nevű adatbázist a phpMyAdmin-ban.
+2. Kattints az **Importálás** fülre.
+3. Válaszd ki a projektben található `.sql` fájlt és nyomj az **Indítás** gombra.
+
+---
+
+### Táblák szerkezete (Referencia)
+*Csak tájékoztató jelleggel, ha manuálisan ellenőriznéd:*
+
+**1. Kérdések (questions)** - Alapértelmezett kérdések tárolása.
+**2. Jutalmak (rewards)** - Sorsolható kuponok listája.
+... (stb.)
 
 ### 2. Backend konfiguráció
 1. Másold a `backend` mappát a webszervered (pl. XAMPP/MAMP) `htdocs` könyvtárába.
