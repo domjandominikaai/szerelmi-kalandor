@@ -1,59 +1,90 @@
-# SzerelmiKalandor
+# ❤️ Szerelmi Kalandor
+### *Interaktív Párkapcsolati Kvíz & Digitális Meglepetés*
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.3.
+![Angular](https://img.shields.io/badge/Frontend-Angular%2017-red?style=for-the-badge&logo=angular)
+![PHP](https://img.shields.io/badge/Backend-PHP%208-777BB4?style=for-the-badge&logo=php)
+![MySQL](https://img.shields.io/badge/Database-MySQL-4479A1?style=for-the-badge&logo=mysql)
 
-## Development server
+A **Szerelmi Kalandor** egy egyedi, webalapú alkalmazás, amivel **személyre szabott kvízeket** készíthetsz a párodnak. A cél az egymás jobb megismerése és a közös szórakozás: ha a párod kitalálja a válaszaidat, egy **digitális kaparós sorsjeggyel** "lekaparhatja" a megérdemelt jutalmát.
 
-To start a local development server, run:
+---
 
+## ✨ Főbb Funkciók
+
+* **🎨 Egyedi Kvíz Szerkesztő:** Adj meg saját címet és válaszokat a véletlenszerűen generált kérdésekhez.
+* **🧠 Intelligens Opciók:** Te csak a **helyes választ** adod meg, a rendszer automatikusan generál mellé rossz válaszokat az adatbázisból.
+* **🏁 Kétfázisú Játékmenet:**
+    1. **Válaszadás:** Te rögzíted a titkos válaszaidat.
+    2. **Kitalálás:** A párod megpróbálja eltalálni őket.
+* **🎁 Kaparós Sorsjegy:** Sikeres kvíz után egy interaktív, **Canvas-alapú** felületen kaparható ki a nyeremény (pl. vacsora, masszázs).
+* **📱 Mobil-optimalizált Design:** Hosszúkás, elegáns kártya-alapú elrendezés, **lebegő szívek** és retro postai stílus.
+
+---
+
+## 🛠️ Telepítés és Beállítás
 ```bash
-ng serve
-```
+npm install
+ng serve --host 0.0.0.0
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### 1. Adatbázis létrehozása
+Importáld az SQL fájlt a **phpMyAdmin**-ba. Győződj meg róla, hogy a `rewards` és `questions` táblák fel vannak töltve alapadatokkal.
 
-## Code scaffolding
+### 2. Backend konfiguráció
+1. Másold a `backend` mappát a webszervered (pl. XAMPP/MAMP) `htdocs` könyvtárába.
+2. Állítsd be a hozzáférést a `backend/api/db.php` fájlban:
+    * **$servername**: "localhost"
+    * **$username**: "root"
+    * **$password**: "root" (vagy "")
+    * **$dbname**: "szerelmi_kalandor"
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 3. Frontend indítása
+Nyiss egy terminált az Angular projekt mappájában:
+Fontos: A --host opció szükséges a mobilról való teszteléshez! Ehhez a parancssorba (CMD) írd be, hogy ipconfig, keresd meg az IPv4-címet, és a telefonodon írd a böngészőbe: http://192.168.x.x:4200.
 
-```bash
-ng generate component component-name
-```
+### 🗄️ Adatbázis Struktúra (MySQL)
+A projekt futtatásához hozd létre az alábbi táblákat:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+**1. Kérdések (questions)**
+SQL
+CREATE TABLE questions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    text VARCHAR(255) NOT NULL,
+    category VARCHAR(50) DEFAULT 'altalanos'
+);
 
-```bash
-ng generate --help
-```
+**2. Jutalmak (rewards)**
+SQL
+CREATE TABLE rewards (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
 
-## Building
+**3. Kvízek (quizzes)**
+SQL
+CREATE TABLE quizzes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    unique_code VARCHAR(10) UNIQUE NOT NULL,
+    title VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-To build the project run:
+**🔧 Beállítási tipp az IP címhez (Mobil tesztelés)**
+Mivel a projektet telefonról is teszteljük, ne felejtsd el:
 
-```bash
-ng build
-```
+**Backend URL:** A quiz-editor-component.ts és player-component.ts fájlokban a http://localhost/... címeket cseréld le a géped belső IP címére (pl. http://192.168.1.XX/...).
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+**CORS:** A PHP fájlok fejlécében engedélyezve van az Access-Control-Allow-Origin: *, így a telefonod nem fogja blokkolni a kéréseket.
 
-## Running unit tests
+**No-Select:** A kaparós felületen a CSS user-select: none beállítást használ, hogy a kaparás ne indítson el véletlen szövegkijelölést.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### 📝 Fejlesztői Megjegyzés
+A projekt folyamatos fejlesztés alatt áll. A legutóbbi frissítések tartalmazzák:
 
-```bash
-ng test
-```
+✅ Központosított db.php (mysqli) használata.
 
-## Running end-to-end tests
+✅ Hosszúkás, mobil-fókuszú kártya design.
 
-For end-to-end (e2e) testing, run:
+✅ Dinamikus jutalom-sorsolás (ORDER BY RAND()).
 
-```bash
-ng e2e
-```
+Készült ❤️-tel, kifejezetten pároknak.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
