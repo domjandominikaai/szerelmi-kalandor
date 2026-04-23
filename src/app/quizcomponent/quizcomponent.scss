@@ -1,76 +1,33 @@
-/* quizcomponent.scss - Végleges, interaktív verzió minden effekttel */
+/* quizcomponent.scss - Hosszúkás kártya + Lebegő szívek */
 
 :host {
-  // Színpaletta definíciók
   --soft-red: #FF3131;
   --dark-red: #8B0000;
   --main-pink: #FFD1D1;
   --bg-creme: #FFF9F9;
-  --text-color: #2D2D2D;
   
   display: block;
   width: 100%;
-  min-height: calc(100vh - 80px); 
+  height: calc(100vh - 70px); 
   background-color: var(--bg-creme);
-  margin: 0;
-  padding: 0;
-  overflow: hidden; // Görgetés letiltása
+  overflow: hidden;
+  position: relative; // Fontos a szívek pozicionálásához
 }
 
-/* --- 1. Töltőképernyő és Heartbeat Animáció --- */
-.loader-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: calc(100vh - 80px);
-  background-color: var(--bg-creme);
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-}
-
-.heart-loader {
-  text-align: center;
-  svg {
-    width: 80px;
-    height: 80px;
-    color: var(--soft-red);
-    animation: heartbeat 1.2s ease-in-out infinite;
-    filter: drop-shadow(0 0 10px rgba(255, 49, 49, 0.3));
-  }
-  p {
-    margin-top: 1.5rem;
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    color: var(--dark-red);
-    font-size: 1.2rem;
-    letter-spacing: 1px;
-  }
-}
-
-@keyframes heartbeat {
-  0% { transform: scale(1); }
-  15% { transform: scale(1.3); }
-  30% { transform: scale(1); }
-  45% { transform: scale(1.15); }
-  60% { transform: scale(1); }
-  100% { transform: scale(1); }
-}
-
-/* --- 2. Setup Konténer és Lebegő Szívek --- */
+/* --- HÁTTÉR SZÍVEK KONTEXTUSA --- */
 .setup-container {
   position: relative;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
-  min-height: calc(100vh - 80px);
-  padding: 20px;
+  height: 100%;
+  padding-top: 40px; 
+  padding-left: 15px;
+  padding-right: 15px;
   box-sizing: border-box;
-  background-color: var(--bg-creme);
-  overflow: hidden;
+  z-index: 2;
 }
 
 .floating-hearts {
@@ -79,26 +36,27 @@
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
-  z-index: 1;
+  pointer-events: none; // Ne lehessen rájuk kattintani
+  z-index: 1; // A háttérben maradjanak
 }
 
 .heart-svg {
   position: absolute;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   color: var(--soft-red);
-  opacity: 0.12;
+  opacity: 0.1; // Halvány, hogy ne zavarja az olvasást
   animation: rise 10s linear infinite;
 
-  &:nth-child(1) { left: 5%; animation-duration: 8s; }
-  &:nth-child(2) { left: 15%; animation-duration: 12s; animation-delay: 2s; }
-  &:nth-child(3) { left: 35%; animation-duration: 10s; animation-delay: 4s; }
-  &:nth-child(4) { left: 55%; animation-duration: 14s; }
-  &:nth-child(5) { left: 75%; animation-duration: 9s; animation-delay: 1s; }
-  &:nth-child(6) { left: 90%; animation-duration: 11s; animation-delay: 5s; }
-  &:nth-child(7) { left: 20%; animation-duration: 13s; }
-  &:nth-child(8) { left: 80%; animation-duration: 7s; animation-delay: 3s; }
+  // Különböző kezdőpontok és sebességek
+  &:nth-child(1) { left: 10%; animation-duration: 8s; }
+  &:nth-child(2) { left: 25%; animation-duration: 12s; animation-delay: 2s; }
+  &:nth-child(3) { left: 45%; animation-duration: 10s; animation-delay: 4s; }
+  &:nth-child(4) { left: 65%; animation-duration: 14s; }
+  &:nth-child(5) { left: 85%; animation-duration: 9s; animation-delay: 1s; }
+  &:nth-child(6) { left: 15%; animation-duration: 11s; animation-delay: 5s; }
+  &:nth-child(7) { left: 55%; animation-duration: 13s; }
+  &:nth-child(8) { left: 90%; animation-duration: 7s; animation-delay: 3s; }
 }
 
 @keyframes rise {
@@ -106,301 +64,122 @@
   100% { transform: translateY(-10vh) rotate(360deg); }
 }
 
-/* --- 3. Setup Kártya és Bélyeg --- */
+/* --- HOSSZÚKÁS KÁRTYA --- */
 .setup-card {
   position: relative;
   background: white;
-  border: 4px solid var(--dark-red);
-  border-radius: 30px;
-  padding: 3.5rem 2.5rem;
-  width: 100%;
-  max-width: 400px;
+  border: 3px solid var(--dark-red);
+  border-radius: 35px;
+  padding: 2.5rem 1.5rem;
+  width: 90%;
+  max-width: 300px;
+  min-height: 420px; 
   text-align: center;
-  box-shadow: 15px 15px 0px var(--main-pink);
-  animation: floating 3.5s ease-in-out infinite;
-  transform: translateY(-5%);
-  z-index: 10;
-}
-
-.post-stamp {
-  position: absolute;
-  top: -15px;
-  right: -15px;
-  width: 65px;
-  height: 75px;
-  background: white;
-  border: 2px dashed var(--dark-red);
-  padding: 5px;
-  transform: rotate(12deg);
-  box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+  box-shadow: 10px 10px 0px var(--main-pink);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  .stamp-inner {
-    border: 1px solid var(--soft-red);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--soft-red);
-    
-    svg { width: 20px; height: 20px; margin-bottom: 2px; }
-    span { font-size: 0.6rem; font-weight: bold; }
-  }
+  justify-content: space-between;
+  z-index: 10;
+  background-color: white; // Biztosítsuk, hogy ne legyen átlátszó
+  animation: floatingCard 3.5s ease-in-out infinite;
 }
 
-/* --- 4. Typewriter Effekt --- */
-.typewriter-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
-}
-
-.typewriter {
-  font-family: 'Playfair Display', serif;
-  color: var(--text-color);
-  font-size: 1.1rem;
-  overflow: hidden;
-  border-right: 2px solid var(--soft-red);
-  white-space: nowrap;
-  letter-spacing: 1px;
-  width: 0;
-  animation: typing 3s steps(30, end) forwards, blink-caret .75s step-end infinite;
-}
-
-@keyframes typing { from { width: 0 } to { width: 100% } }
-@keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--soft-red) } }
-
-/* --- 5. Konfetti Robbanás (Kattintáskor) --- */
-.heart-burst-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 1px;
-  height: 1px;
-  pointer-events: none;
-  z-index: 999;
-}
-
-.burst-heart-svg {
-  position: absolute;
-  top: -10px; 
-  left: -10px;
-  color: var(--soft-red);
-  fill: currentColor;
-  opacity: 0;
-  animation: heart-explosion 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-}
-
-@keyframes heart-explosion {
-  0% { opacity: 0; transform: translate(0, 0) scale(0) rotate(0deg); }
-  15% { opacity: 1; }
-  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(var(--scale)) rotate(var(--rot)); }
-}
-
-/* --- 6. Form Elemek és Gombok --- */
 .feelings-title {
   font-family: 'Playfair Display', serif;
   font-style: italic;
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   color: var(--soft-red);
-  margin: 0 0 0.5rem 0;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: var(--dark-red);
+  margin-top: 5px;
+  margin-bottom: 1.5rem;
 }
 
 .input-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   text-align: left;
+  
   label {
     display: block;
     font-weight: bold;
-    margin-bottom: 0.5rem;
-    margin-left: 1.2rem;
-    font-size: 0.85rem;
+    margin-bottom: 5px;
+    margin-left: 12px;
+    font-size: 0.7rem;
     color: var(--dark-red);
-    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 }
 
 .retro-input {
   width: 100%;
-  padding: 1rem 1.5rem;
+  padding: 0.85rem 1.2rem;
   border: 2px solid var(--main-pink);
   border-radius: 50px;
   background-color: var(--bg-creme);
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--dark-red);
   box-sizing: border-box;
-  outline: none;
-  transition: border-color 0.3s;
-  &:focus { border-color: var(--soft-red); }
 }
 
 .start-btn {
-  position: relative;
-  overflow: visible;
   margin-top: 1rem;
   background-color: var(--soft-red) !important;
   color: white !important;
   border: none;
-  padding: 1.1rem 2rem;
+  padding: 1rem;
   border-radius: 50px;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: bold;
-  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 4px 0px var(--dark-red);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  width: 100%;
-  transition: all 0.2s;
-  
-  &:hover { background-color: var(--dark-red) !important; transform: translateY(-2px); }
-  &:active { transform: scale(0.95); }
-}
-
-@keyframes floating {
-  0%, 100% { transform: translateY(-5%); }
-  50% { transform: translateY(-8%); }
-}
-
-/* --- 7. Kvíz Felület Elrendezése --- */
-.quiz-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.player-badge {
-  background: var(--soft-red);
-  color: white;
-  width: 100%;
-  padding: 1rem;
-  text-align: center;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  margin-bottom: 2rem;
-}
-
-.question-card-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  padding: 20px;
-}
-
-.question-card {
-  background: white;
-  border: 4px solid var(--dark-red);
-  border-radius: 30px;
-  padding: 3rem 2.5rem;
-  width: 100%;
-  max-width: 550px;
-  position: relative;
-  box-shadow: 15px 15px 0px var(--main-pink);
-  text-align: center;
-}
-
-.phase-indicator {
-  background: var(--main-pink);
-  color: var(--dark-red);
-  display: inline-block;
-  padding: 5px 15px;
-  border-radius: 50px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-}
-
-.question-text {
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  font-size: 1.2rem;
-  color: var(--soft-red);
-  margin-bottom: 0.5rem;
-}
-
-.question-prompt {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
-  color: var(--dark-red);
-  margin-bottom: 2rem;
-  line-height: 1.2;
-}
-
-.options-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-top: 1rem;
-}
-
-.option-btn {
-  background: white;
-  border: 2px solid var(--main-pink);
-  border-radius: 15px;
-  padding: 1rem;
-  font-weight: bold;
-  color: var(--dark-red);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
   gap: 10px;
-  transition: all 0.2s ease;
-  text-align: left;
 
-  &:hover {
-    border-color: var(--soft-red);
-    background: var(--bg-creme);
-    transform: translateY(-2px);
-  }
-
-  .option-marker {
-    background: var(--main-pink);
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
+  &:active {
+    transform: translateY(2px);
+    box-shadow: none;
   }
 }
 
-/* --- 8. Visszajelzés és Eredmény --- */
-.feedback-toast {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 1rem 2rem;
-  border-radius: 50px;
-  background: var(--dark-red);
-  color: white;
-  font-weight: bold;
-  z-index: 1100;
-  &.success { background: #4CAF50; }
-}
-
-.result-card {
-  @extend .setup-card;
-  .score-circle {
-    width: 120px;
-    height: 120px;
-    border: 5px solid var(--soft-red);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 1.5rem auto;
-    .score-num { font-size: 2rem; font-weight: bold; color: var(--dark-red); }
+/* BÉLYEG */
+.post-stamp {
+  position: absolute;
+  top: -12px;
+  right: -5px;
+  width: 50px;
+  height: 60px;
+  background: white;
+  border: 2px dashed var(--dark-red);
+  transform: rotate(15deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 11;
+  
+  .stamp-inner {
+    border: 1px solid var(--soft-red);
+    padding: 3px;
+    color: var(--soft-red);
+    font-size: 0.5rem;
+    font-weight: bold;
   }
 }
+@keyframes floatingCard {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px); // 15 pixelt emelkedik középtávon
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* 3. A szívek animációja maradjon meg (ellenőrzésképpen) */
