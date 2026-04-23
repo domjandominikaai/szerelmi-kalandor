@@ -1,55 +1,60 @@
-// Színpaletta (a moodboardod alapján)
-$primary-pink: #FFF9F9;
+// --- Változók (A moodboardod színei) ---
+$primary-pink: #FFF1F1; 
 $accent-red: #ff3131;
 $dark-red: #8b0000;
 $dark-text: #4a4a4a;
 $white: #ffffff;
-$shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
 
 .player-wrapper {
-  min-height: 100vh;
+  width: 100%;
+  min-height: calc(100vh - 70px); // Levonjuk a navbar helyét
+  background-color: transparent !important; // Már a body pink, ez legyen átlátszó
+  
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  background-color: $primary-pink;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  padding: 60px 20px;
+  align-items: flex-start; // Desktopon ne legyen túl lent
+  padding: 40px 20px;
+  box-sizing: border-box;
 }
 
-// Kártya alapstílusa
 .quiz-container, .result-card, .error-card, .loader-container {
-  background: $white;
+  // CSAK ez maradhat fehér!
+  background-color: #ffffff !important;
   width: 100%;
-  max-width: 500px;
-  padding: 40px;
-  border-radius: 30px;
-  box-shadow: $shadow;
-  text-align: center;
-  position: relative;
+  max-width: 450px;
+  padding: 40px 30px;
+  border-radius: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  margin: 0 auto; // Középre rendezi a kártyát
 }
 
-// Címek
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// --- Szövegek és Címek ---
 .quiz-main-title {
   font-family: 'Playfair Display', serif;
   font-style: italic;
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   color: $accent-red;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
-// Fejléc információk (Progress)
 .status-header {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   .progress-info {
     font-size: 0.9rem;
-    color: #999;
-    font-weight: 600;
+    color: #666;
   }
 }
 
+// --- Progress Bar ---
 .progress-line-bg {
   width: 100%;
-  height: 8px;
+  height: 6px;
   background: #f0f0f0;
   border-radius: 10px;
   margin-bottom: 30px;
@@ -59,17 +64,19 @@ $shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
 .progress-line-fill {
   height: 100%;
   background: $accent-red;
-  transition: width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 10px;
+  transition: width 0.5s ease-out;
 }
 
-// Kérdés kártya
 .question-text {
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   color: $dark-text;
   margin-bottom: 30px;
+  font-weight: 700;
   line-height: 1.4;
 }
 
+// --- Válaszlehetőségek ---
 .options-list {
   display: flex;
   flex-direction: column;
@@ -78,61 +85,51 @@ $shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
 
 .answer-btn {
   background: $white;
-  border: 2px solid #eee;
+  border: 1px solid #eee;
   padding: 16px 20px;
-  border-radius: 15px;
+  border-radius: 18px;
   font-size: 1rem;
   color: $dark-text;
   cursor: pointer;
   transition: all 0.2s ease;
-  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
 
   &:hover {
-    border-color: $accent-red;
-    background-color: rgba($accent-red, 0.02);
-    transform: translateY(-2px);
-  }
-
-  &:active {
-    transform: translateY(0);
+    background-color: #fafafa;
+    border-color: #ddd;
+    transform: translateY(-1px);
   }
 }
 
-/* --- MODAL STÍLUSOK (A vicces üzenethez) --- */
+// --- Modal (Vicces üzenet) ---
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba($primary-pink, 0.9);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-  backdrop-filter: blur(8px);
+  z-index: 10000;
+  padding: 15px;
+  box-sizing: border-box;
 }
 
 .modal-card {
-  background: white;
-  padding: 40px;
-  border-radius: 30px;
+  background: $white !important;
+  width: 100%;
   max-width: 400px;
-  width: 90%;
+  padding: 35px 25px;
+  border-radius: 40px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
   text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-
-  .modal-icon {
-    font-size: 3.5rem;
-    margin-bottom: 15px;
-  }
-
-  h2 {
-    color: $accent-red;
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    margin-bottom: 15px;
-  }
+  box-sizing: border-box;
+  
+  h2 { font-family: 'Playfair Display', serif; font-style: italic; color: $accent-red; }
 }
 
 .funny-text {
@@ -141,58 +138,154 @@ $shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
   font-size: 1.1rem;
   color: $dark-red;
   margin: 20px 0;
-  line-height: 1.6;
-  background: #fff5f5;
-  padding: 20px;
+  background: rgba($accent-red, 0.03);
+  padding: 15px;
   border-radius: 20px;
-  border-left: 5px solid $accent-red;
 }
 
-.modal-actions {
-  margin-top: 25px;
-  
-  .new-quiz-btn {
-    background: $dark-text;
-    color: white;
-    border: none;
-    padding: 14px 28px;
-    border-radius: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease;
+// --- Fő Gombok (Vissza, Újra) ---
+.new-quiz-btn, .retry-btn {
+  background-color: $accent-red !important;
+  color: $white !important;
+  border: none;
+  padding: 16px 30px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+  transition: opacity 0.3s;
 
-    &:hover {
-      background: #333;
-    }
+  &:hover { opacity: 0.9; }
+}
+
+// --- Mobil Optimalizálás ---
+@media (max-width: 600px) {
+  .player-wrapper {
+    padding: 20px 10px;
+  }
+  
+  .quiz-container {
+    padding: 30px 20px;
+    border-radius: 35px;
+  }
+
+  .quiz-main-title {
+    font-size: 1.7rem;
+  }
+}
+.scratch-section {
+  margin: 30px 0;
+  
+  h3 {
+    font-size: 1.1rem;
+    color: $dark-red;
+    margin-bottom: 15px;
   }
 }
 
-// Eredmény kijelző (Siker/Game Over)
-.result-screen {
-  .icon {
-    font-size: 4rem;
-    margin-bottom: 20px;
-  }
+.scratch-card-wrapper {
+  position: relative;
+  width: 300px;
+  height: 120px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 2px dashed #FFD1D1;
+  background: white;
+}
+
+.reward-content {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
   
-  .final-score {
-    font-size: 2.5rem;
+  .reward-text {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: #ff3131;
+    font-size: 1.2rem;
+    margin: 0;
+  }
+}
+
+canvas {
+  position: absolute;
+  top: 0; left: 0;
+  cursor: crosshair;
+  touch-action: none; // KÖTELEZŐ mobilra, hogy ne görgesse az oldalt kaparáskor
+}
+
+.divider {
+  border: 0;
+  height: 1px;
+  background: #eee;
+  margin: 25px 0;
+}
+.final-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.create-quiz-btn {
+  background: linear-gradient(135deg, $accent-red, #ff5f5f);
+  color: white;
+  border: none;
+  padding: 18px 25px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba($accent-red, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba($accent-red, 0.3);
+  }
+}
+
+.secondary-link {
+  background: transparent;
+  color: #888;
+  border: none;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 10px;
+  
+  &:hover {
     color: $accent-red;
-    margin: 20px 0;
   }
-
-  .retry-btn {
-    background: $accent-red;
-    color: white;
-    border: none;
-    padding: 15px 40px;
-    border-radius: 50px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 20px;
-    box-shadow: 0 10px 20px rgba($accent-red, 0.2);
-
-    &:hover {
-      background: $dark-red;
-    }
+}
+.scratch-container {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  height: 150px;
+  margin: 20px auto;
+  
+  // EZ A LÉNYEG: Letiltja a kijelölést és a böngésző alapértelmezett érintési reakcióit
+  user-select: none;           // Szövegkijelölés tiltása
+  -webkit-user-select: none;   // Safari támogatás
+  touch-action: none;          // Megakadályozza az oldal görgetését, amíg kaparsz
+  -webkit-tap-highlight-color: transparent; // Eltünteti a szürke villanást kattintáskor
+  
+  canvas {
+    cursor: crosshair;
+    border-radius: 15px;
+    touch-action: none; // Kifejezetten a vásznon is tiltsuk le a default touch-ot
   }
+}
+
+.reward-text {
+  // A kupon szövegén is tiltsuk le, hogy véletlenül se jelölje ki alul
+  user-select: none;
+  -webkit-user-select: none;
 }

@@ -1,1 +1,39 @@
-<p>rewardcomponent works!</p>
+<div class="reward-wrapper">
+  <div class="points-display">
+    <span class="coin-icon">💰</span>
+    <span class="points-count">{{ userPoints }} pontod van</span>
+  </div>
+
+  <div class="reward-container" *ngIf="userPoints >= 100; else notEnoughPoints">
+    <h1 class="reward-title">Kaparj ki egy ajándékot!</h1>
+    
+    <div class="scratch-card-wrapper">
+      <div class="reward-content">
+        <div class="reward-inner">
+          <span class="reward-icon">{{ currentPrize?.icon }}</span>
+          <h3>{{ currentPrize?.name }}</h3>
+          <p>{{ currentPrize?.description }}</p>
+        </div>
+      </div>
+
+      <canvas #scratchCanvas 
+              (mousedown)="startScratching($event)" 
+              (mousemove)="scratch($event)" 
+              (mouseup)="stopScratching()"
+              (touchstart)="startScratching($event)"
+              (touchmove)="scratch($event)"
+              (touchend)="stopScratching()">
+      </canvas>
+    </div>
+    
+    <p class="instruction">Használd az ujjad vagy az egeret a kaparáshoz!</p>
+  </div>
+
+  <ng-template #notEnoughPoints>
+    <div class="locked-card">
+      <div class="lock-icon">🔒</div>
+      <p>Még nincs elég pontod egy sorsjegyhez.</p>
+      <p>Tölts ki több kvízt! (Szükséges: 100 pont)</p>
+    </div>
+  </ng-template>
+</div>

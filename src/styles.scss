@@ -1,6 +1,26 @@
+/* src/styles.scss */
+
+// 1. Minden alapértelmezett margót és paddingot nullázunk a böngészőben
 html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden; /* Ez globálisan letiltja a görgetést az egész oldalon */
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: #FFF1F1 !important; // A moodboard pinkje
+  overflow: hidden; // Megakadályozza a vízszintes csúszkálást
+}
+
+// 2. Az Angular saját "app-root" elemét és minden közvetlen gyerekét kényszerítjük
+app-root {
+  display: block;
+  min-height: 100vh;
+  background-color: #FFF1F1 !important;
+}
+
+// 3. Ha van bármilyen extra konténer (pl. Bootstrap 'container' osztály), azt is kiütjük
+.container, .container-fluid {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: 100% !important;
+  background-color: transparent !important;
 }

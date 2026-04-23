@@ -1,66 +1,98 @@
 /* header.component.scss */
 
 .main-header {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  position: sticky; // Opcionális: görgetéskor is felül marad
+  top: 0;
+  z-index: 1000;
+}
+
+.header-content {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; // Széttolja a logót és a szíveket
   align-items: center;
-  padding: 1.5rem 2rem;
-  background-color: transparent; // Hagyjuk érvényesülni az oldal pink hátterét
-  
-  .logo {
-    font-family: 'Playfair Display', serif; // A "feelings" felirat stílusa
-    font-size: 2.2rem;
-    font-weight: 900;
-    font-style: italic;
-    color: #FF3131; // Élénkvörös a moodboardról
-    letter-spacing: -1px;
-    text-shadow: 2px 2px 0px #FFC0CB; // Finom pink árnyék a retró hatásért
-    user-select: none;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Logó stílusa és animációja */
+.logo-link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
   }
 }
 
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #ff3131; // A moodboardod pirosa
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+/* Szívek (Életek) konténere */
 .lives-container {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
 
   .heart {
+    color: #ff3131; // Aktív szív színe
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: #FF3131; // Alapértelmezett vörös szív
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    
+    transition: all 0.4s ease;
+    filter: drop-shadow(0 2px 4px rgba(255, 49, 49, 0.2));
+
     svg {
-      // Egy kis ragyogást adunk a szíveknek
-      filter: drop-shadow(0 0 5px rgba(255, 49, 49, 0.3));
+      display: block;
+      transition: transform 0.3s ease;
     }
 
+    /* "Törött" szív stílusa */
     &.broken {
-      color: #FFC0CB; // Elvesztett élet esetén halvány rózsaszín
-      transform: scale(0.7) rotate(-15deg);
-      opacity: 0.5;
-      filter: grayscale(0.5); // Kicsit tompítjuk a színét
+      color: #e0e0e0; // Halvány szürke
+      opacity: 0.4;
+      transform: scale(0.85);
+      filter: grayscale(100%);
       
-      // Animáció, amikor az osztály rákerül (amikor levonunk egy életet)
-      animation: heart-pop 0.4s ease-out;
+      svg {
+        transform: rotate(-10deg); // Kicsit megbillen, mintha "leesne"
+      }
     }
   }
 }
 
-/* Egy kis "pukkanó" animáció az életvesztéshez */
-@keyframes heart-pop {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.4); }
-  100% { transform: scale(0.7) rotate(-15deg); }
-}
-
-/* Mobilra optimalizálás */
-@media (max-width: 400px) {
+/* Mobil optimalizálás */
+@media (max-width: 480px) {
   .main-header {
-    padding: 1rem;
-    .logo {
-      font-size: 1.8rem;
+    padding: 10px 15px;
+  }
+
+  .logo-text {
+    font-size: 1.5rem;
+  }
+
+  .lives-container {
+    gap: 6px;
+    
+    svg {
+      width: 20px;
+      height: 20px;
     }
   }
 }

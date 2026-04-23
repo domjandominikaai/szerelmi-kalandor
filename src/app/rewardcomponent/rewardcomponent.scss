@@ -1,0 +1,67 @@
+$primary-pink: #FFF1F1;
+$accent-red: #ff3131;
+$white: #ffffff;
+
+.reward-wrapper {
+  min-height: calc(100vh - 70px);
+  background-color: $primary-pink;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.points-display {
+  background: $white;
+  padding: 10px 25px;
+  border-radius: 50px;
+  box-shadow: 0 10px 20px rgba($accent-red, 0.1);
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  color: $accent-red;
+}
+
+.scratch-card-wrapper {
+  position: relative;
+  width: 320px;
+  height: 180px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  background: $white;
+}
+
+.reward-content {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+
+  .reward-icon { font-size: 3rem; }
+  h3 { margin: 10px 0 5px; color: $accent-red; font-family: 'Playfair Display', serif; }
+  p { font-size: 0.9rem; color: #666; }
+}
+
+canvas {
+  position: absolute;
+  top: 0; left: 0;
+  cursor: crosshair;
+  touch-action: none; // Megakadályozza az oldal görgetését kaparás közben
+}
+
+.locked-card {
+  background: $white;
+  padding: 40px;
+  border-radius: 40px;
+  text-align: center;
+  max-width: 350px;
+  opacity: 0.8;
+  
+  .lock-icon { font-size: 3rem; margin-bottom: 20px; }
+}
