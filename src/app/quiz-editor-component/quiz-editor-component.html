@@ -1,0 +1,68 @@
+<div class="editor-container">
+  <h1 class="feelings-title">Kvíz Készítése</h1>
+  
+  <div class="setup-card">
+    <div class="input-wrapper">
+      <label class="input-label">A kvíz neve:</label>
+      <input type="text" [(ngModel)]="newQuiz.title" placeholder="Pl. Mi és a közös emlékeink" class="retro-input main-title">
+    </div>
+
+    <div class="question-block">
+      <div class="question-header">
+        <h3 class="display-question">
+          {{ newQuiz.questions[0].text || 'Kattints a kockára egy kérdésért!' }}
+        </h3>
+        
+        <button type="button" class="dice-btn" (click)="loadRandomQuestion()" title="Másik kérdés kérése">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
+            <circle cx="15.5" cy="15.5" r="1.5" fill="currentColor"/>
+            <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor"/>
+            <circle cx="8.5" cy="15.5" r="1.5" fill="currentColor"/>
+            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="input-wrapper">
+        <label class="input-label">A te válaszod:</label>
+        <div class="input-with-icon">
+          <input type="text" 
+                 [(ngModel)]="newQuiz.questions[0].options[0]" 
+                 placeholder="Ide írd a helyes választ..." 
+                 class="retro-input correct-input">
+          <span class="check-icon">✔</span>
+        </div>
+        <small class="hint">Ezt kell majd eltalálnia a párodnak. A többi opciót mi adjuk hozzá!</small>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button (click)="nextQuestion()" class="start-btn">
+        Mentés és Következő kérdés ➔
+      </button>
+      
+      <button (click)="finishQuiz()" class="secondary-btn">
+        Befejezés
+      </button>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" *ngIf="showSuccessModal">
+  <div class="modal-card">
+    <div class="modal-icon">🎉</div>
+    <h2>Sikeresen elkészült a kvízed!</h2>
+    <p>Most már elküldheted ezt a linket a párodnak:</p>
+    
+    <div class="link-copy-box">
+      <input type="text" [value]="generatedLink" readonly #linkInput>
+      <button (click)="copyLink(linkInput)">Másolás</button>
+    </div>
+
+    <div class="modal-actions">
+      <button class="new-quiz-btn" (click)="createNewQuiz()">Új kvíz létrehozása</button>
+      <button class="close-btn" (click)="showSuccessModal = false">Bezárás</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,75 @@
+<div class="player-wrapper">
+  <div *ngIf="loading" class="loader-container">
+    <div class="heart">❤️</div>
+    <p>A meglepetésed készül... ❤️</p>
+  </div>
+
+  <div *ngIf="!loading && !quizFinished && !gameOver" class="quiz-container">
+    
+    <h1 class="quiz-main-title">{{ quizTitle || 'Szerelmi Kvíz' }}</h1>
+    
+    <div class="status-header">
+      <div class="progress-info">
+        <span>{{ currentIndex + 1 }} / {{ questions.length }} kérdés</span>
+      </div>
+    </div> <div class="progress-line-bg">
+      <div class="progress-line-fill" [style.width.%]="((currentIndex + 1) / questions.length) * 100"></div>
+    </div>
+
+    <div class="question-card">
+      <h2 class="question-text">{{ currentQuestion?.text }}</h2>
+      
+      <div class="options-list">
+        <button *ngFor="let option of currentQuestion?.options; let i = index" 
+                (click)="selectOption(i)" 
+                class="answer-btn">
+          {{ option }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showWrongAnswerModal">
+    <div class="modal-card">
+      <div class="modal-icon">😅</div>
+      <h2>Hoppá!</h2>
+      <p class="funny-text">"{{ funnyMessage }}"</p>
+      
+      <div class="modal-actions">
+        <button class="new-quiz-btn" (click)="showWrongAnswerModal = false">
+          Megpróbálom újra
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="gameOver" class="result-screen game-over">
+    <div class="result-card">
+      <div class="icon">💔</div>
+      <h2>Sajnos elfogytak az életeid!</h2>
+      <p>Ne szomorkodj, próbáld meg újra, biztosan sikerülni fog! ❤️</p>
+      <button class="retry-btn" (click)="reloadPage()">Újrapróbálom</button>
+    </div>
+  </div>
+
+  <div *ngIf="quizFinished && !gameOver" class="result-screen">
+    <div class="result-card">
+      <div class="icon">🏆</div>
+      <h2>Kész vagy! 🥂</h2>
+      <p class="final-score">Eredményed: <strong>{{ score }} / {{ questions.length }}</strong></p>
+      
+      <p class="feedback-msg">
+        {{ score === questions.length ? 'Te vagy az életem párja! 😍 Mindenre tudtad a választ!' : 'Nagyon jól ismersz, szinte minden megvan! ❤️' }}
+      </p>
+
+      <button class="retry-btn" (click)="reloadPage()">Vissza az elejére</button>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && (!questions || questions.length === 0)" class="error-msg">
+    <div class="error-card">
+      <p>Sajnos nem találtuk ezt a kvízt vagy még nincsenek benne kérdések. ☹️</p>
+      <button class="retry-btn" (click)="reloadPage()">Frissítés</button>
+    </div>
+  </div>
+</div>

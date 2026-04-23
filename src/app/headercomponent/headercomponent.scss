@@ -1,0 +1,66 @@
+/* header.component.scss */
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background-color: transparent; // Hagyjuk érvényesülni az oldal pink hátterét
+  
+  .logo {
+    font-family: 'Playfair Display', serif; // A "feelings" felirat stílusa
+    font-size: 2.2rem;
+    font-weight: 900;
+    font-style: italic;
+    color: #FF3131; // Élénkvörös a moodboardról
+    letter-spacing: -1px;
+    text-shadow: 2px 2px 0px #FFC0CB; // Finom pink árnyék a retró hatásért
+    user-select: none;
+  }
+}
+
+.lives-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  .heart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FF3131; // Alapértelmezett vörös szív
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    svg {
+      // Egy kis ragyogást adunk a szíveknek
+      filter: drop-shadow(0 0 5px rgba(255, 49, 49, 0.3));
+    }
+
+    &.broken {
+      color: #FFC0CB; // Elvesztett élet esetén halvány rózsaszín
+      transform: scale(0.7) rotate(-15deg);
+      opacity: 0.5;
+      filter: grayscale(0.5); // Kicsit tompítjuk a színét
+      
+      // Animáció, amikor az osztály rákerül (amikor levonunk egy életet)
+      animation: heart-pop 0.4s ease-out;
+    }
+  }
+}
+
+/* Egy kis "pukkanó" animáció az életvesztéshez */
+@keyframes heart-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(0.7) rotate(-15deg); }
+}
+
+/* Mobilra optimalizálás */
+@media (max-width: 400px) {
+  .main-header {
+    padding: 1rem;
+    .logo {
+      font-size: 1.8rem;
+    }
+  }
+}

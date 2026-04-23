@@ -1,0 +1,356 @@
+/* quiz-editor-component.scss - Teljes, kiegészített verzió */
+
+:host {
+  --soft-red: #FF3131;
+  --dark-red: #8B0000;
+  --main-pink: #FFD1D1;
+  --bg-creme: #FFF9F9;
+  
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-creme) !important;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px; 
+  background: transparent !important;
+  width: 100%;
+  box-sizing: border-box;
+
+  .feelings-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 3.5rem;
+    color: var(--soft-red);
+    margin: 0 0 20px 0; 
+    text-align: center;
+    background: transparent;
+    line-height: 1.1;
+    text-shadow: 2px 2px 0px var(--main-pink);
+  }
+}
+
+.setup-card {
+  background: white;
+  border: 4px solid var(--dark-red);
+  border-radius: 30px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 550px;
+  box-shadow: 10px 10px 0px var(--main-pink);
+  box-sizing: border-box;
+  position: relative;
+  margin-top: 0;
+  margin-bottom: 40px;
+}
+
+/* Főcím beviteli mező */
+.main-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  border: 2px solid var(--main-pink);
+  border-radius: 50px;
+  padding: 10px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  color: var(--dark-red);
+  outline: none;
+
+  &::placeholder {
+    color: var(--main-pink);
+    font-style: italic;
+  }
+}
+
+/* Kérdés blokkok */
+.question-block {
+  margin-top: 1.5rem;
+  padding: 1.2rem;
+  border: 2px dashed var(--main-pink);
+  border-radius: 20px;
+  background-color: white;
+  
+  h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--dark-red);
+    font-size: 1.1rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &::before {
+      content: '❤️';
+      font-size: 0.8rem;
+    }
+  }
+}
+
+/* ÚJ: Bemeneti mezők körüli wrapper és címkék */
+.input-wrapper {
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  .input-label {
+    font-family: 'Playfair Display', serif;
+    font-weight: bold;
+    color: var(--dark-red);
+    font-size: 0.85rem;
+    margin-left: 15px;
+  }
+}
+
+/* ÚJ: Helyes válasz speciális mezője */
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .correct-input {
+    border-color: #4CAF50 !important; // Zöld keret
+    padding-right: 45px;
+    background-color: #fafffa;
+    
+    &:focus {
+      box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
+      border-color: #388E3C !important;
+    }
+  }
+
+  .check-icon {
+    position: absolute;
+    right: 18px;
+    color: #4CAF50;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+}
+
+/* ÚJ: Magyarázó szöveg */
+.hint {
+  font-size: 0.75rem;
+  color: #888;
+  font-style: italic;
+  margin-left: 15px;
+  margin-top: 2px;
+}
+
+/* Beviteli mezők alapstílusa (Retro) */
+.retro-input {
+  width: 100%;
+  padding: 10px 18px;
+  border: 2px solid var(--main-pink);
+  border-radius: 50px;
+  font-family: inherit;
+  box-sizing: border-box;
+  outline: none;
+  margin-bottom: 8px;
+  color: var(--dark-red);
+  transition: all 0.3s ease;
+
+  &:focus {
+    border-color: var(--soft-red);
+    background-color: var(--bg-creme);
+  }
+
+  &.small {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+  }
+}
+
+/* Kérdés fejléce (Cím + Kocka) */
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Kocka gomb stílusa */
+.dice-btn {
+  background: transparent;
+  border: none;
+  color: var(--soft-red);
+  cursor: pointer;
+  padding: 5px;
+  transition: transform 0.4s ease, color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transform: rotate(180deg) scale(1.2);
+    color: var(--dark-red);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+/* Alsó gombcsoport */
+.button-group {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.secondary-btn {
+  background: white;
+  border: 2px solid var(--soft-red);
+  color: var(--soft-red);
+  padding: 10px;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+  
+  &:hover {
+    background: var(--main-pink);
+  }
+}
+
+.start-btn {
+  background: var(--soft-red) !important;
+  color: white !important;
+  border: none;
+  padding: 14px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 0px var(--dark-red);
+  transition: all 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0px var(--dark-red);
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: none;
+  }
+}
+.display-question {
+  font-family: 'Playfair Display', serif;
+  color: var(--dark-red);
+  font-size: 1.1rem;
+  margin: 0;
+  flex: 1; // Hogy kitöltse a helyet a kocka gombig
+  padding-right: 10px;
+  line-height: 1.4;
+
+  .q-number {
+    font-weight: 900;
+    color: var(--soft-red);
+    margin-right: 5px;
+  }
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; // Jobb elrendezés a hosszabb kérdéseknél
+  margin-bottom: 1.5rem;
+  gap: 15px;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-card {
+  background: white;
+  padding: 40px;
+  border-radius: 30px;
+  max-width: 450px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+
+  .modal-icon { font-size: 3rem; margin-bottom: 20px; }
+  h2 { color: #ff4081; margin-bottom: 10px; }
+  p { color: #666; margin-bottom: 25px; }
+}
+
+.link-copy-box {
+  display: flex;
+  background: #f8f8f8;
+  border: 2px solid #eee;
+  padding: 5px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+
+  input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 10px;
+    font-size: 0.9rem;
+    color: #444;
+    outline: none;
+  }
+
+  button {
+    background: #ff4081;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    &:hover { background: #e91e63; }
+  }
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .new-quiz-btn {
+    background: #4a4a4a;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    &:hover { background: #333; }
+  }
+
+  .close-btn {
+    background: transparent;
+    color: #999;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
