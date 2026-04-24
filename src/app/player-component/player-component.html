@@ -91,14 +91,20 @@
         <button class="create-quiz-btn" (click)="goToCreator()">
           Most én is kérdezek tőled! ✍️
         </button>
-      </div>
-    </div>
-
-    <div *ngIf="!loading && (!questions || questions.length === 0)" class="error-msg">
-      <div class="error-card">
-        <div class="svg-icon">☹️</div>
-        <p>Sajnos nem találtuk ezt a kvízt.</p>
-        <button class="retry-btn" (click)="reloadPage()">Frissítés</button>
+        <div class="coffee-btn-wrapper" (click)="openCoffee($event)" style="cursor: pointer;">
+          <div class="coffee-btn-content">
+            <span>☕ Meglepem a fejlesztőt egy kávéval</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+  <div *ngIf="!loading && (!questions || questions.length === 0)" class="error-msg">
+    <div class="error-card">
+      <div class="svg-icon">☹️</div>
+      <p>Sajnos nem találtuk ezt a kvízt.</p>
+      <button class="retry-btn" (click)="reloadPage()">Frissítés</button>
+    </div>
+  </div>
+</div>

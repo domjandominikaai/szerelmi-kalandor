@@ -122,4 +122,13 @@ export class QuizEditorComponent implements OnInit {
   createNewQuiz() {
     window.location.reload();
   }
+
+  openCoffee(event: Event) {
+  // Megállítjuk, hogy az Angular router vagy más elem észlelje a kattintást
+  event.preventDefault();
+  event.stopPropagation();
+  
+  // Közvetlen nyitás
+  window.open('https://www.buymeacoffee.com/dominikatok', '_blank');
+}
 }

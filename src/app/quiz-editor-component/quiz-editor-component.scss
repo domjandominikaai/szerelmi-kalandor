@@ -265,3 +265,39 @@
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+// quiz-editor-component.scss kiegészítés
+.coffee-link {
+  text-decoration: none;
+  margin: 5px 0;
+}
+
+.coffee-btn-content {
+  background-color: #FFDD00; // A klasszikus kávé-sárga
+  color: #000000;
+  padding: 10px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 0px #c4ab00;
+  transition: transform 0.2s;
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: none;
+  }
+}
+
+// player-component.scss kiegészítés
+.coffee-link-player {
+  display: block;
+  margin: 10px auto;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
