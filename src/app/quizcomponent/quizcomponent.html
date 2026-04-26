@@ -23,21 +23,33 @@
     </div>
 
     <h1 class="hero-title">Mennyire ismered<br>a párodat?</h1>
-    <p class="hero-subtitle">Állíts össze egy személyes kvízt, és küldd el a párodnak – derüljön ki, ki figyel jobban!</p>
+    <p class="hero-subtitle">Készíts személyes kvízt magadról, küldd el a párodnak – és derüljön ki, mennyire figyel rád!</p>
 
-    <div class="name-inputs">
-      <div class="input-field">
-        <label class="field-label">A te neved</label>
-        <input type="text" [(ngModel)]="userName" placeholder="Pl. Kata..." class="field-input" autocomplete="off">
-      </div>
-      <div class="input-field">
-        <label class="field-label">Párod neve</label>
-        <input type="text" [(ngModel)]="partnerName" placeholder="Pl. Péter..." class="field-input" autocomplete="off">
+    <!-- Hogyan működik -->
+    <div class="how-it-works">
+      <p class="how-label">Hogyan működik?</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon">✏️</div>
+          <p class="step-text"><strong>Te</strong> válaszolsz kérdésekre magadról</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-icon">📤</div>
+          <p class="step-text">Elküldöd a linket a <strong>párodnak</strong></p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-icon">🎯</div>
+          <p class="step-text">Ő megpróbálja <strong>kitalálni</strong> a válaszaid</p>
+        </div>
       </div>
     </div>
 
+    <div class="divider"></div>
+
     <button type="button" class="primary-btn" (click)="goToEditor($event)">
-      <span>Kvíz szerkesztése</span>
+      <span>Kvíz létrehozása</span>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M5 12h14M12 5l7 7-7 7"/>
       </svg>
@@ -72,7 +84,6 @@
 
     <div class="divider"></div>
 
-    <!-- Fázis 1: szöveg beírás -->
     <div class="input-phase" *ngIf="!isPhaseTwo">
       <input type="text" #uAns class="field-input" placeholder="Írd ide a titkos válaszod..."
         (keyup.enter)="submitUserAnswer(uAns.value); uAns.value = ''">
@@ -84,7 +95,6 @@
       </button>
     </div>
 
-    <!-- Fázis 2: választós -->
     <div class="options-grid" *ngIf="isPhaseTwo">
       <button *ngFor="let option of currentQuestion.options; let i = index"
               (click)="onAnswer(i)" class="option-btn">
@@ -94,7 +104,6 @@
     </div>
   </div>
 
-  <!-- Visszajelzés toast -->
   <div class="feedback-toast" *ngIf="feedbackMessage" [class.success]="isCorrect" [class.error]="!isCorrect">
     {{ feedbackMessage }}
   </div>

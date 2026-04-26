@@ -68,6 +68,23 @@
   letter-spacing: -0.4px;
 }
 
+.intro-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: var(--pink-pale);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 11px 14px;
+  font-size: 0.82rem;
+  color: var(--text-mid);
+  line-height: 1.5;
+  font-weight: 500;
+  animation: slideUp 0.4s var(--ease-spring) both;
+
+  svg { flex-shrink: 0; margin-top: 1px; color: var(--red); }
+}
+
 .progress-row {
   display: flex;
   align-items: center;

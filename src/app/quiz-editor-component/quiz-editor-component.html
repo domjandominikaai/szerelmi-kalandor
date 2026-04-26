@@ -9,7 +9,24 @@
       Kvíz készítő
     </div>
     <h1 class="page-title">Állíts össze<br>egy kvízt</h1>
-    <p class="page-subtitle">Adj nevet a kvízednek, majd válaszolj a kérdésekre!</p>
+
+    <!-- Instrukciós sáv -->
+    <div class="info-steps">
+      <div class="info-step">
+        <span class="info-num">1</span>
+        <span>Adj nevet a kvíznek</span>
+      </div>
+      <div class="info-sep">·</div>
+      <div class="info-step">
+        <span class="info-num">2</span>
+        <span>Válaszolj a kérdésekre</span>
+      </div>
+      <div class="info-sep">·</div>
+      <div class="info-step">
+        <span class="info-num">3</span>
+        <span>Kattints a "Befejezés"-re</span>
+      </div>
+    </div>
   </div>
 
   <div class="editor-card">
@@ -26,7 +43,10 @@
     <!-- Kérdés blokk -->
     <div class="question-block">
       <div class="question-header">
-        <p class="question-number">Kérdés</p>
+        <div class="question-meta">
+          <p class="question-number">{{ savedCount + 1 }}. kérdés</p>
+          <span class="saved-badge" *ngIf="savedCount > 0">✓ {{ savedCount }} mentve</span>
+        </div>
         <button type="button" class="dice-btn" (click)="loadRandomQuestion()" title="Másik kérdés">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="18" height="18" rx="2"/>

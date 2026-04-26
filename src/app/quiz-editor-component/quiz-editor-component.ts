@@ -27,6 +27,7 @@ export class QuizEditorComponent implements OnInit {
   uniqueCode = '';
   showSuccessModal = false;
   generatedLink = '';
+  savedCount = 0;
 
   constructor(private http: HttpClient) {}
 
@@ -90,7 +91,10 @@ export class QuizEditorComponent implements OnInit {
   }
 
   nextQuestion() {
-    this.saveCurrentQuestion(() => this.loadRandomQuestion());
+    this.saveCurrentQuestion(() => {
+      this.savedCount++;
+      this.loadRandomQuestion();
+    });
   }
 
   finishQuiz() {
