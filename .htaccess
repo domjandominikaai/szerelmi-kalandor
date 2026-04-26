@@ -1,0 +1,8 @@
+RewriteEngine On
+# Ha a kért fájl vagy mappa létezik, szolgáld ki azt
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+RewriteRule ^ - [L]
+
+# Minden egyéb esetben irányíts az index.html-re
+RewriteRule ^ /index.html [L]

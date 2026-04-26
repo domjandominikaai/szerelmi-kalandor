@@ -1,113 +1,125 @@
-<div class="loader-container" *ngIf="!isLoaded">
-  <div class="heart-loader">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path
-        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-        fill="currentColor" />
+<!-- ── TÖLTŐKÉPERNYŐ ───────────────────────────────────── -->
+<div class="loader-screen" *ngIf="!isLoaded">
+  <div class="loader-heart">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
     </svg>
-    <p>Szeretet betöltése...</p>
   </div>
+  <p class="loader-text">Szeretet betöltése...</p>
 </div>
 
-<div class="setup-container" *ngIf="isLoaded && !isStarted">
-  <div class="floating-hearts">
-    <svg *ngFor="let h of [1,2,3,4,5,6,7,8]" class="heart-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-      <path
-        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-        fill="currentColor" />
+<!-- ── KEZDŐKÉPERNYŐ ──────────────────────────────────── -->
+<div class="landing-screen" *ngIf="isLoaded && !isStarted">
+  <div class="bg-hearts" aria-hidden="true">
+    <svg *ngFor="let h of [1,2,3,4,5,6,7,8]" class="bg-heart" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
     </svg>
   </div>
 
-  <div class="setup-card">
-    <div class="post-stamp">
-      <div class="stamp-inner">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path
-            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-        </svg>
-        <span>LOVE</span>
+  <div class="hero-card">
+    <div class="hero-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      Páros kvíz
+    </div>
+
+    <h1 class="hero-title">Mennyire ismered<br>a párodat?</h1>
+    <p class="hero-subtitle">Állíts össze egy személyes kvízt, és küldd el a párodnak – derüljön ki, ki figyel jobban!</p>
+
+    <div class="name-inputs">
+      <div class="input-field">
+        <label class="field-label">A te neved</label>
+        <input type="text" [(ngModel)]="userName" placeholder="Pl. Kata..." class="field-input" autocomplete="off">
+      </div>
+      <div class="input-field">
+        <label class="field-label">Párod neve</label>
+        <input type="text" [(ngModel)]="partnerName" placeholder="Pl. Péter..." class="field-input" autocomplete="off">
       </div>
     </div>
 
-    <h1 class="feelings-title">Sziasztok!</h1>
-    <p class="subtitle">Készen álltok a közös kalandra?</p>
-
-    <div class="input-group">
-      <label>Te neved:</label>
-      <input type="text" [(ngModel)]="userName" placeholder="Írd ide a neved..." class="retro-input">
-    </div>
-
-    <div class="input-group">
-      <label>Párod neve:</label>
-      <input type="text" [(ngModel)]="partnerName" placeholder="És az övét..." class="retro-input">
-    </div>
-
-    <button type="button" class="start-btn" (click)="goToEditor($event)">
-      <span class="btn-text">Kvíz szerkesztése</span>
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+    <button type="button" class="primary-btn" (click)="goToEditor($event)">
+      <span>Kvíz szerkesztése</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
       </svg>
       <div class="heart-burst-container"></div>
     </button>
   </div>
 </div>
 
-<div class="quiz-wrapper" *ngIf="isStarted && !gameOver">
-  <div class="player-badge">
-    {{ userName }} ❤️ {{ partnerName }}
-  </div>
+<!-- ── KVÍZ FÁZIS 1 & 2 ───────────────────────────────── -->
+<div class="quiz-screen" *ngIf="isStarted && !gameOver">
+  <div class="player-chip">{{ userName }} ❤️ {{ partnerName }}</div>
 
-  <div class="question-card-container" *ngIf="currentQuestion">
-    <div class="question-card">
-      <div class="stamp-icon">Open with care</div>
-
-      <div class="phase-indicator">
-        {{ isPhaseTwo ? '2. FÁZIS: KITALÁLÁS' : '1. FÁZIS: VÁLASZADÁS' }}
-      </div>
-
-      <h2 class="question-text">
-        {{ isPhaseTwo ? partnerName + ', mit válaszolt ' + userName + '?' : userName + ', írd le a válaszod:' }}
-      </h2>
-      <p class="question-prompt">{{ currentQuestion.text }}</p>
-
-      <hr class="divider">
-
-      <div class="action-area">
-        <div class="input-phase" *ngIf="!isPhaseTwo">
-          <input type="text" #uAns class="retro-input" placeholder="Írd ide a titkos válaszod..."
-            (keyup.enter)="submitUserAnswer(uAns.value); uAns.value=''">
-          <button type="button" class="start-btn" (click)="submitUserAnswer(uAns.value); uAns.value=''">
-            Válasz rögzítése
-          </button>
-        </div>
-
-        <div class="options-grid" *ngIf="isPhaseTwo">
-          <button *ngFor="let option of currentQuestion.options; let i = index" (click)="onAnswer(i)"
-            class="option-btn">
-            <span class="option-marker">{{ ['A', 'B', 'C', 'D'][i] }}</span>
-            <span class="option-text">{{ option }}</span>
-          </button>
-        </div>
-      </div>
+  <div class="progress-row">
+    <span class="progress-label">{{ currentIndex + 1 }} / {{ questions.length }}</span>
+    <div class="progress-track">
+      <div class="progress-fill" [style.width.%]="((currentIndex + 1) / questions.length) * 100"></div>
     </div>
   </div>
 
-  <div class="feedback-toast" *ngIf="feedbackMessage" [class.success]="isCorrect">
+  <div class="question-card" *ngIf="currentQuestion">
+    <div class="phase-pill" [class.phase-two]="isPhaseTwo">
+      {{ isPhaseTwo ? '🎯 Kitalálós fázis' : '✏️ Válaszadós fázis' }}
+    </div>
+
+    <p class="phase-instruction">
+      {{ isPhaseTwo
+        ? partnerName + ', mit gondolsz, mit válaszolt ' + userName + '?'
+        : userName + ', írd le a saját válaszod!' }}
+    </p>
+
+    <h2 class="question-text">{{ currentQuestion.text }}</h2>
+
+    <div class="divider"></div>
+
+    <!-- Fázis 1: szöveg beírás -->
+    <div class="input-phase" *ngIf="!isPhaseTwo">
+      <input type="text" #uAns class="field-input" placeholder="Írd ide a titkos válaszod..."
+        (keyup.enter)="submitUserAnswer(uAns.value); uAns.value = ''">
+      <button type="button" class="primary-btn" (click)="submitUserAnswer(uAns.value); uAns.value = ''">
+        <span>Válasz rögzítése</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6L9 17l-5-5"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Fázis 2: választós -->
+    <div class="options-grid" *ngIf="isPhaseTwo">
+      <button *ngFor="let option of currentQuestion.options; let i = index"
+              (click)="onAnswer(i)" class="option-btn">
+        <span class="option-marker">{{ ['A', 'B', 'C', 'D'][i] }}</span>
+        <span class="option-text">{{ option }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Visszajelzés toast -->
+  <div class="feedback-toast" *ngIf="feedbackMessage" [class.success]="isCorrect" [class.error]="!isCorrect">
     {{ feedbackMessage }}
   </div>
 </div>
 
-<div class="result-container" *ngIf="gameOver">
+<!-- ── EREDMÉNY ────────────────────────────────────────── -->
+<div class="result-screen" *ngIf="gameOver">
   <div class="result-card">
-    <div class="post-stamp">
-      <div class="stamp-inner">DONE</div>
+    <div class="result-emoji">🎊</div>
+    <h2 class="result-title">Vége a kalandnak!</h2>
+
+    <div class="score-display">
+      <span class="score-num">{{ score }}</span>
+      <span class="score-denom"> / {{ questions.length }}</span>
     </div>
-    <h2 class="feelings-title">Vége!</h2>
-    <div class="score-circle">
-      <span class="score-num">{{ score }} / {{ questions.length }}</span>
-    </div>
-    <p class="result-text">Szuper csapat vagytok!</p>
-    <button type="button" class="start-btn" (click)="resetGame()">Új játék</button>
+
+    <p class="result-msg">
+      {{ score === questions.length ? 'Tökéletes páros! 😍' : score >= questions.length / 2 ? 'Szuper csapat vagytok! ❤️' : 'Legközelebb menni fog! 💪' }}
+    </p>
+
+    <button type="button" class="primary-btn" (click)="resetGame()">
+      <span>Új játék</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
+      </svg>
+    </button>
   </div>
 </div>

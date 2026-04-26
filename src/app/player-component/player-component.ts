@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppComponent } from '../app';
-import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-player-component',
@@ -15,25 +15,19 @@ import { Router } from '@angular/router';
 export class PlayerComponent implements OnInit {
   @ViewChild('scratchCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
-  // Kvíz adatok
   questions: any[] = [];
   currentIndex = 0;
   score = 0;
   quizTitle = '';
 
-  // Állapotjelzők
   loading = true;
   quizFinished = false;
   gameOver = false;
   showWrongAnswerModal = false;
 
-  // Játék logika
   lives = 3;
   funnyMessage = '';
-
-  // Kaparós sorsjegy adatok
-  rewards: any[] = [];
-  randomReward = "";
+  randomReward = '';
   isDrawing = false;
 
   constructor(
@@ -41,60 +35,28 @@ export class PlayerComponent implements OnInit {
     private http: HttpClient,
     private appRef: AppComponent,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     const code = this.route.snapshot.paramMap.get('code');
-    if (code) {
-      this.loadQuizData(code);
-    }
-
-    // Betöltjük a kuponokat a DB-ből az elején
-    this.loadRewards();
-
-    // Szinkronizáljuk a szíveket a globális állapottal
+    if (code) this.loadQuizData(code);
     this.lives = this.appRef.lives();
-  }
-  goToCreator() {
-    // Itt irányítsd át arra az oldalra, ahol a kvízt létre lehet hozni
-    // Ha például 'create' az útvonalad:
-    this.router.navigate(['/create']);
   }
 
   get currentQuestion() {
     return this.questions[this.currentIndex];
   }
 
-  // --- Adatbetöltés ---
-
   loadQuizData(code: string) {
-    this.http.get<any>(`http://localhost/Szerelmi_Kalandor/szerelmi-kalandor/backend/api/get_quiz_data.php?code=${code}`)
-      .subscribe({
-        next: (res) => {
-          this.questions = res.questions;
-          this.quizTitle = res.title;
-          this.loading = false;
-        },
-        error: (err) => {
-          console.error('Hiba a kvíz betöltésekor:', err);
-          this.loading = false;
-        }
-      });
+    this.http.get<any>(`${environment.apiUrl}/get_quiz_data.php?code=${code}`).subscribe({
+      next: (res) => {
+        this.questions = res.questions;
+        this.quizTitle = res.title;
+        this.loading = false;
+      },
+      error: () => { this.loading = false; }
+    });
   }
-
-  loadRewards() {
-    this.http.get<any>('http://localhost/Szerelmi_Kalandor/szerelmi-kalandor/backend/api/get_rewards.php')
-      .subscribe({
-        next: (res) => {
-          if (res.success) {
-            this.rewards = res.rewards;
-          }
-        },
-        error: (err) => console.error('Nem sikerült betölteni a jutalmakat:', err)
-      });
-  }
-
-  // --- Játékmenet ---
 
   selectOption(index: number) {
     if (this.gameOver || this.quizFinished) return;
@@ -112,89 +74,70 @@ export class PlayerComponent implements OnInit {
     this.lives = this.appRef.lives();
 
     if (this.lives <= 0) {
-      this.lives = 0;
       this.gameOver = true;
-    } else {
-      this.http.get<any>('http://localhost/Szerelmi_Kalandor/szerelmi-kalandor/backend/api/get_funny_message.php?type=wrong')
-        .subscribe(res => {
-          if (res.success) {
-            this.funnyMessage = res.message;
-            this.showWrongAnswerModal = true;
-          }
-        });
+      return;
     }
+
+    this.http.get<any>(`${environment.apiUrl}/get_funny_message.php?type=wrong`).subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.funnyMessage = res.message;
+          this.showWrongAnswerModal = true;
+        }
+      }
+    });
   }
 
   nextQuestion() {
     if (this.currentIndex < this.questions.length - 1) {
       this.currentIndex++;
     } else {
-      // Ha elfogytak a kérdések, meghívjuk a befejezést
       this.finishQuiz();
     }
   }
 
-  // --- Kvíz Befejezése & Kaparós Sorsjegy ---
-
   finishQuiz() {
-  this.quizFinished = true;
-  this.gameOver = false;
+    this.quizFinished = true;
+    this.gameOver = false;
 
-  // 1. Azonnali lekérés a szerverről (friss paraméterrel a cache ellen)
-  const timestamp = new Date().getTime();
-  this.http.get<any>(`http://localhost/Szerelmi_Kalandor/szerelmi-kalandor/backend/api/get_rewards.php?v=${timestamp}`)
-    .subscribe({
+    this.http.get<any>(`${environment.apiUrl}/get_rewards.php?v=${Date.now()}`).subscribe({
       next: (res) => {
-        // Ellenőrizzük, hogy a PHP sikeres-e és vannak-e adatok
-        if (res.success && res.rewards && res.rewards.length > 0) {
-          
-          // Mivel a PHP-dban ORDER BY RAND() van, 
-          // nekünk elég mindig az első elemet (index 0) kivenni
-          this.randomReward = res.rewards[0].name;
-          
-          console.log("Adatbázisból érkezett jutalom:", this.randomReward);
-        } else {
-          // Ha a DB üres, adjunk egy hibaüzenetet, hogy tudd: baj van az adatbázissal
-          this.randomReward = "Hiba: Nincs kupon a DB-ben!";
-          console.error("A PHP sikerült, de a rewards tömb üres vagy success=false.");
-        }
-        
-        // Csak a válasz megérkezése után indítjuk a kaparós felületet
+        this.randomReward = res.success && res.rewards?.length
+          ? res.rewards[0].name
+          : 'Egy nagy ölelés ❤️';
         setTimeout(() => this.initScratchCard(), 150);
       },
-      error: (err) => {
-        console.error("Hálózati hiba a sorsoláskor:", err);
-        this.randomReward = "Hálózati hiba a sorsolásnál!";
+      error: () => {
+        this.randomReward = 'Egy nagy ölelés ❤️';
         setTimeout(() => this.initScratchCard(), 150);
       }
     });
-}
+  }
 
   initScratchCard() {
     if (!this.canvasRef) return;
-
     const canvas = this.canvasRef.nativeElement;
+    const wrapper = canvas.parentElement;
+    const w = wrapper?.clientWidth || 320;
+    const h = wrapper?.clientHeight || 130;
+
+    canvas.width = w;
+    canvas.height = h;
+
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-    canvas.width = 300;
-    canvas.height = 120;
+    ctx.fillStyle = '#FFD6D6';
+    ctx.fillRect(0, 0, w, h);
 
-    if (ctx) {
-      // Fedőréteg stílusa
-      ctx.fillStyle = '#FFD1D1';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Instrukció szöveg
-      ctx.fillStyle = '#FF3131';
-      ctx.font = 'bold 16px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText('Húzd az ujjad itt! ✨', 150, 65);
-    }
+    ctx.fillStyle = '#E8302A';
+    ctx.font = 'bold 15px DM Sans, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Húzd az ujjad ide! ✨', w / 2, h / 2);
   }
 
-  // --- Kaparás események ---
-
-  startScratching(e: any) {
+  startScratching(e: MouseEvent | TouchEvent) {
     this.isDrawing = true;
     this.scratch(e);
   }
@@ -203,37 +146,44 @@ export class PlayerComponent implements OnInit {
     this.isDrawing = false;
   }
 
-  scratch(event: any) {
+  scratch(event: MouseEvent | TouchEvent) {
     if (!this.isDrawing || !this.canvasRef) return;
 
     const canvas = this.canvasRef.nativeElement;
     const ctx = canvas.getContext('2d');
     const rect = canvas.getBoundingClientRect();
 
-    const clientX = event.touches ? event.touches[0].clientX : event.clientX;
-    const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+    const clientX = (event as TouchEvent).touches
+      ? (event as TouchEvent).touches[0].clientX
+      : (event as MouseEvent).clientX;
+    const clientY = (event as TouchEvent).touches
+      ? (event as TouchEvent).touches[0].clientY
+      : (event as MouseEvent).clientY;
 
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const x = (clientX - rect.left) * scaleX;
+    const y = (clientY - rect.top) * scaleY;
 
     if (ctx) {
       ctx.globalCompositeOperation = 'destination-out';
       ctx.beginPath();
-      ctx.arc(x, y, 20, 0, Math.PI * 2);
+      ctx.arc(x, y, 24, 0, Math.PI * 2);
       ctx.fill();
     }
+  }
+
+  goToCreator() {
+    this.router.navigate(['/quiz-editor']);
   }
 
   reloadPage() {
     window.location.reload();
   }
 
-   openCoffee(event: Event) {
-  // Megállítjuk, hogy az Angular router vagy más elem észlelje a kattintást
-  event.preventDefault();
-  event.stopPropagation();
-  
-  // Közvetlen nyitás
-  window.open('https://www.buymeacoffee.com/dominikatok', '_blank');
-}
+  openCoffee(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    window.open('https://www.buymeacoffee.com/dominikatok', '_blank');
+  }
 }

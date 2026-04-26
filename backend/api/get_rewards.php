@@ -1,7 +1,5 @@
 <?php
-// get_rewards.php
-
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: https://szerelmi-kalandor-kviz.hu");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: GET");
 

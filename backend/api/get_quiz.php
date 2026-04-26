@@ -1,5 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: https://szerelmi-kalandor-kviz.hu");
 header("Content-Type: application/json; charset=UTF-8");
 
 // Behúzzuk a központi adatbázis kapcsolatot

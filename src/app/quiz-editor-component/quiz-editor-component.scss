@@ -1,289 +1,386 @@
-/* quiz-editor-component.scss - JAVÍTOTT VERZIÓ MODALLAL */
-
+/* ── HOST ─────────────────────────────────────────────── */
 :host {
-  --soft-red: #FF3131;
-  --dark-red: #8B0000;
-  --main-pink: #FFD1D1;
-  --bg-creme: #FFF9F9;
-  
-  display: block;
-  width: 100%;
-  height: 100vh;
-  background-color: var(--bg-creme) !important;
-  overflow: hidden;
-}
-
-.editor-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; 
-  padding: 10px 15px; 
-  height: 100%;
+  width: 100%;
+  min-height: 100%;
+  padding: 32px 16px 48px;
   box-sizing: border-box;
-
-  .feelings-title {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-weight: 700;
-    font-size: 1.8rem;
-    color: var(--soft-red);
-    margin: 10px 0 15px 0;
-    text-shadow: 1px 1px 0px var(--main-pink);
-  }
 }
 
-.setup-card {
-  background: white;
-  border: 3px solid var(--dark-red);
-  border-radius: 30px;
-  padding: 1.5rem 1.3rem;
-  width: 95%;
-  max-width: 340px;
-  box-shadow: 8px 8px 0px var(--main-pink);
-  box-sizing: border-box;
+/* ── OLDAL FEJLÉC ────────────────────────────────────── */
+.editor-screen {
   display: flex;
   flex-direction: column;
-}
-
-.input-wrapper {
-  margin-bottom: 1rem;
-}
-
-.input-label {
-  font-family: 'Playfair Display', serif;
-  font-weight: bold;
-  color: var(--dark-red);
-  font-size: 0.8rem;
-  margin-left: 10px;
-  margin-bottom: 6px;
-  display: block;
-}
-
-.input-with-icon {
-  position: relative;
-  width: 100%;
-  display: flex;
   align-items: center;
-
-  .correct-input {
-    border-color: #4CAF50 !important;
-    padding-right: 40px !important;
-    background-color: #fafffa;
-    width: 100%;
-  }
-
-  .check-icon {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #4CAF50;
-    font-size: 1.1rem;
-    font-weight: bold;
-  }
+  gap: 24px;
+  width: 100%;
+  max-width: 420px;
 }
 
-.main-title, .retro-input {
-  font-family: 'Playfair Display', serif;
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   width: 100%;
-  box-sizing: border-box;
-  border: 2px solid var(--main-pink);
-  border-radius: 50px;
-  padding: 10px 18px;
-  font-size: 0.9rem;
-  color: var(--dark-red);
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--pink-pale);
+  color: var(--red);
+  border: 1px solid var(--pink-light);
+  border-radius: var(--radius-pill);
+  padding: 5px 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  width: fit-content;
+  letter-spacing: 0.3px;
+}
+
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 2.1rem;
+  line-height: 1.2;
+  color: var(--red);
+  letter-spacing: -0.5px;
+}
+
+.page-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  line-height: 1.55;
+}
+
+/* ── SZERKESZTŐ KÁRTYA ───────────────────────────────── */
+.editor-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 28px 24px;
+  width: 100%;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: slideUp 0.45s var(--ease-spring) both;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── INPUT MEZŐK ─────────────────────────────────────── */
+.input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.field-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-soft);
+  margin-left: 2px;
+}
+
+.field-input {
+  width: 100%;
+  padding: 13px 18px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-input);
+  background: var(--pink-pale);
+  color: var(--text-dark);
+  font-size: 0.95rem;
   outline: none;
+  transition: border-color var(--duration) var(--ease-smooth),
+              box-shadow var(--duration) var(--ease-smooth),
+              background var(--duration) var(--ease-smooth);
+  box-sizing: border-box;
+
+  &::placeholder { color: var(--text-muted); }
+
+  &:focus {
+    border-color: var(--red);
+    background: var(--white);
+    box-shadow: 0 0 0 3px var(--red-glow);
+  }
 }
 
+.title-input {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* ── KÉRDÉS BLOKK ────────────────────────────────────── */
 .question-block {
-  margin-top: 0.5rem;
-  padding: 1rem;
-  border: 2px dashed var(--main-pink);
-  border-radius: 20px;
-  background-color: white;
+  background: var(--pink-pale);
+  border: 1.5px dashed var(--pink-light);
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .question-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.8rem;
+  align-items: center;
   gap: 10px;
 }
 
-.display-question {
+.question-number {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-soft);
+}
+
+.question-text {
   font-family: 'Playfair Display', serif;
-  color: var(--dark-red);
-  font-size: 0.95rem;
-  line-height: 1.3;
-  margin: 0;
-}
-
-.dice-btn {
-  background: transparent;
-  border: none;
-  color: var(--soft-red);
-  cursor: pointer;
-  padding: 2px;
-  svg { width: 22px; height: 22px; }
-}
-
-.hint {
-  font-size: 0.7rem;
-  color: #888;
   font-style: italic;
-  margin-top: 6px;
-  line-height: 1.2;
-}
-
-.button-group {
-  margin-top: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.start-btn {
-  background: var(--soft-red) !important;
-  color: white !important;
-  border: none;
-  padding: 12px;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 1rem;
-  box-shadow: 0 4px 0px var(--dark-red);
-}
-
-.secondary-btn {
-  background: white;
-  border: 1.5px solid var(--soft-red);
-  color: var(--soft-red);
-  padding: 8px;
-  border-radius: 50px;
-  font-size: 0.85rem;
+  font-size: 1.05rem;
+  color: var(--red-dark);
+  line-height: 1.5;
   font-weight: 600;
 }
 
-/* --- MODAL STÍLUSOK (HIÁNYZOTT) --- */
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6); // Sötétített háttér
-  backdrop-filter: blur(5px); // Homályosítás
+.dice-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999; // Minden felett legyen
+  width: 38px;
+  height: 38px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  color: var(--red);
+  flex-shrink: 0;
+  transition: all var(--duration) var(--ease-smooth);
+
+  &:hover {
+    border-color: var(--red);
+    box-shadow: 0 3px 0 var(--pink-light);
+    transform: translateY(-1px) rotate(15deg);
+  }
+
+  &:active {
+    transform: translateY(1px) rotate(0deg);
+    box-shadow: none;
+  }
+}
+
+.answer-field { gap: 8px; }
+
+.input-with-check {
+  position: relative;
+
+  .field-input { padding-right: 46px; }
+}
+
+.check-badge {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #27ae60;
+  font-size: 1rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.hint-text {
+  font-size: 0.76rem;
+  color: var(--text-soft);
+  line-height: 1.45;
+}
+
+/* ── GOMBOK ──────────────────────────────────────────── */
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.primary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 15px 20px;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-size: 1rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-btn);
+  transition: transform var(--duration) var(--ease-smooth),
+              box-shadow var(--duration) var(--ease-smooth);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-btn-hover);
+  }
+
+  &:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 var(--red-shadow);
+  }
+
+  &.full-width { width: 100%; }
+}
+
+.secondary-btn {
+  width: 100%;
+  padding: 13px 20px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all var(--duration) var(--ease-smooth);
+
+  &:hover {
+    border-color: var(--red);
+    color: var(--red);
+    background: var(--pink-pale);
+  }
+}
+
+/* ── MODAL ───────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(139, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
   padding: 20px;
-  box-sizing: border-box;
 }
 
 .modal-card {
-  background: white;
-  border: 3px solid var(--dark-red);
-  border-radius: 30px;
-  padding: 2rem;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 36px 28px 28px;
   width: 100%;
-  max-width: 340px;
-  text-align: center;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-  animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-  h2 {
-    font-family: 'Playfair Display', serif;
-    color: var(--soft-red);
-    margin-bottom: 1rem;
-  }
-
-  p {
-    font-size: 0.9rem;
-    color: var(--dark-red);
-    margin-bottom: 1.5rem;
-  }
-}
-
-.modal-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  display: block;
-}
-
-.link-copy-box {
+  max-width: 390px;
+  box-shadow: var(--shadow-hover);
   display: flex;
-  background: #f8f8f8;
-  border: 2px solid var(--main-pink);
-  border-radius: 15px;
-  padding: 5px;
-  margin-bottom: 1.5rem;
-  gap: 5px;
-
-  input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    padding: 8px;
-    font-size: 0.8rem;
-    color: #666;
-    outline: none;
-  }
-
-  button {
-    background: var(--soft-red);
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    
-    &:active { opacity: 0.8; }
-  }
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  animation: popUp 0.4s var(--ease-spring) both;
 }
 
+@keyframes popUp {
+  from { opacity: 0; transform: scale(0.88) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-emoji {
+  font-size: 3rem;
+  animation: bounce 1.4s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.7rem;
+  color: var(--red-dark);
+  margin: 0;
+}
+
+.modal-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  margin: 0;
+}
+
+/* ── LINK MÁSOLÁS ────────────────────────────────────── */
+.link-box {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.link-input {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-input);
+  background: var(--pink-pale);
+  color: var(--text-dark);
+  font-size: 0.82rem;
+  outline: none;
+}
+
+.copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 11px 16px;
+  background: var(--red-dark);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-input);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: opacity var(--duration) var(--ease-smooth);
+
+  &:hover { opacity: 0.85; }
+}
+
+/* ── MODAL AKCIÓK ────────────────────────────────────── */
 .modal-actions {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
+}
 
-  .new-quiz-btn {
-    @extend .start-btn; // Átvesszük a fő gomb stílusát
-    width: 100%;
+.coffee-btn {
+  width: 100%;
+  padding: 13px 20px;
+  background: #FFDD00;
+  color: #1a1000;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 4px 0 #c4ab00;
+  transition: transform var(--duration) var(--ease-smooth),
+              box-shadow var(--duration) var(--ease-smooth);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #c4ab00;
   }
-
-  .close-btn {
-    @extend .secondary-btn;
-    width: 100%;
-  }
-}
-
-@keyframes modalPop {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-// quiz-editor-component.scss kiegészítés
-.coffee-link {
-  text-decoration: none;
-  margin: 5px 0;
-}
-
-.coffee-btn-content {
-  background-color: #FFDD00; // A klasszikus kávé-sárga
-  color: #000000;
-  padding: 10px;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 0.85rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 0px #c4ab00;
-  transition: transform 0.2s;
 
   &:active {
     transform: translateY(2px);
@@ -291,13 +388,27 @@
   }
 }
 
-// player-component.scss kiegészítés
-.coffee-link-player {
-  display: block;
-  margin: 10px auto;
-  transition: transform 0.3s ease;
-  
+.ghost-btn {
+  width: 100%;
+  padding: 12px 20px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  color: var(--text-soft);
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all var(--duration) var(--ease-smooth);
+
   &:hover {
-    transform: scale(1.05);
+    border-color: var(--red);
+    color: var(--red);
   }
+}
+
+/* ── RESZPONZÍV ──────────────────────────────────────── */
+@media (max-width: 480px) {
+  :host { padding: 20px 12px 36px; }
+  .page-title  { font-size: 1.75rem; }
+  .editor-card { padding: 22px 18px 20px; }
+  .modal-card  { padding: 28px 20px 22px; }
 }
